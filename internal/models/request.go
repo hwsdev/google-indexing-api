@@ -30,16 +30,16 @@ type IndexResponse struct {
 }
 
 type BatchIndexResponse struct {
-	Success    bool                      `json:"success"`
-	Message    string                    `json:"message"`
-	Results    []IndexResponse           `json:"results,omitempty"`
-	Statistics BatchIndexResponseStats   `json:"statistics,omitempty"`
+	Success    bool                    `json:"success"`
+	Message    string                  `json:"message"`
+	Results    []IndexResponse         `json:"results,omitempty"`
+	Statistics BatchIndexResponseStats `json:"statistics,omitempty"`
 }
 
 type BatchIndexResponseStats struct {
-	Total     int `json:"total"`
+	Total      int `json:"total"`
 	Successful int `json:"successful"`
-	Failed    int `json:"failed"`
+	Failed     int `json:"failed"`
 }
 
 type StatusResponse struct {

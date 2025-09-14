@@ -70,6 +70,7 @@ curl -X GET http://localhost:8080/api/v1/cache/stats \
 ```
 
 Response:
+
 ```json
 {
   "cached_services": 2,
@@ -86,6 +87,7 @@ curl -X POST http://localhost:8080/api/v1/cache/clear \
 ```
 
 Response:
+
 ```json
 {
   "success": true,
@@ -96,6 +98,7 @@ Response:
 ## Format Response
 
 ### Success Response (Single URL):
+
 ```json
 {
   "success": true,
@@ -105,6 +108,7 @@ Response:
 ```
 
 ### Success Response (Batch URLs):
+
 ```json
 {
   "success": true,
@@ -135,6 +139,7 @@ Response:
 ```
 
 ### Error Response:
+
 ```json
 {
   "error": "Bad Request",

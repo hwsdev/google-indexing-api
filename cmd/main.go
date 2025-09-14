@@ -92,10 +92,10 @@ func setupRouter(indexingHandler *handlers.IndexingHandler, logger *logrus.Logge
 	{
 		// Single URL indexing
 		api.POST("/index", indexingHandler.SubmitURL)
-		
+
 		// Batch URL indexing
 		api.POST("/index/batch", indexingHandler.SubmitURLsBatch)
-		
+
 		// URL status check
 		api.GET("/status/*url", func(c *gin.Context) {
 			// Extract URL from path parameter

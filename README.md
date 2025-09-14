@@ -5,7 +5,7 @@
 ## 📋 Features
 
 - ✅ Submit single URL untuk indexing
-- ✅ Batch processing untuk multiple URLs  
+- ✅ Batch processing untuk multiple URLs
 - ✅ **Service Account via Request Body** - Service account wajib melalui request body
 - ✅ Service account caching untuk performa optimal
 - ✅ **No Authentication Required** - Akses langsung tanpa API key
@@ -37,29 +37,34 @@
 ### Installation
 
 1. Clone repository:
+
 ```bash
 git clone <repository-url>
 cd google-indexing-api
 ```
 
 2. Install dependencies:
+
 ```bash
 go mod tidy
 ```
 
 3. Setup environment variables:
+
 ```bash
 cp .env.example .env
 # Edit .env file dengan konfigurasi Anda
 ```
 
 4. Setup environment variables:
+
 ```bash
 cp .env.example .env
 # Edit .env file dengan konfigurasi server (opsional)
 ```
 
 5. Run aplikasi:
+
 ```bash
 go run cmd/main.go
 ```
@@ -90,7 +95,7 @@ CACHE_TTL_MINUTES=60
 
 ### Authentication
 
-**Tidak ada autentikasi API key yang diperlukan!** 
+**Tidak ada autentikasi API key yang diperlukan!**
 
 Semua endpoint dapat diakses secara langsung tanpa header Authorization.
 
@@ -99,6 +104,7 @@ Semua endpoint dapat diakses secara langsung tanpa header Authorization.
 API ini **hanya mendukung dynamic service account** melalui request body. Service account credentials **wajib** disertakan di setiap request.
 
 #### Format Service Account Request:
+
 ```json
 {
   "url": "https://example.com/page",
@@ -119,11 +125,13 @@ API ini **hanya mendukung dynamic service account** melalui request body. Servic
 ### Endpoints
 
 #### Health Check
+
 ```http
 GET /api/health
 ```
 
 Response:
+
 ```json
 {
   "status": "healthy",
@@ -133,6 +141,7 @@ Response:
 ```
 
 #### Submit Single URL
+
 ```http
 POST /api/v1/index
 Content-Type: application/json
@@ -152,6 +161,7 @@ Content-Type: application/json
 ```
 
 Response:
+
 ```json
 {
   "success": true,
@@ -161,6 +171,7 @@ Response:
 ```
 
 #### Submit Batch URLs
+
 ```http
 POST /api/v1/index/batch
 Content-Type: application/json
@@ -184,6 +195,7 @@ Content-Type: application/json
 ```
 
 Response:
+
 ```json
 {
   "success": true,
@@ -204,11 +216,13 @@ Response:
 ```
 
 #### Check URL Status
+
 ```http
 GET /api/v1/status/https://example.com/page
 ```
 
 Response:
+
 ```json
 {
   "url": "https://example.com/page",
@@ -220,11 +234,13 @@ Response:
 #### Cache Management
 
 **Get Cache Statistics**
+
 ```http
 GET /api/v1/cache/stats
 ```
 
 Response:
+
 ```json
 {
   "cached_services": 3,
@@ -234,11 +250,13 @@ Response:
 ```
 
 **Clear Cache**
+
 ```http
 POST /api/v1/cache/clear
 ```
 
 Response:
+
 ```json
 {
   "success": true,
@@ -249,11 +267,13 @@ Response:
 ## 🐳 Docker Deployment
 
 ### Build Image
+
 ```bash
 docker build -t google-indexing-api .
 ```
 
 ### Run Container
+
 ```bash
 docker run -d \
   --name google-indexing-api \
@@ -268,7 +288,7 @@ docker run -d \
 ### Docker Compose (Recommended)
 
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   google-indexing-api:
     build: .
@@ -284,7 +304,15 @@ services:
       - ./service-account.json:/root/service-account.json:ro
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:8080/api/health",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -303,6 +331,7 @@ services:
 ## 🚀 Service Account Only Benefits
 
 ### Keuntungan:
+
 1. **Simplified Access** - Tidak perlu manajemen API key
 2. **Direct Integration** - Service account langsung di request body
 3. **Multi-tenant Ready** - Setiap request bisa menggunakan service account berbeda
@@ -310,6 +339,7 @@ services:
 5. **Scalability** - Support untuk banyak klien dengan service account berbeda
 
 ### Use Cases:
+
 - **Public API** - Dapat diakses langsung tanpa registrasi
 - **SaaS Platform** - Setiap customer menggunakan service account sendiri
 - **Agency** - Mengelola multiple client websites
@@ -355,6 +385,7 @@ curl -X POST http://localhost:8080/api/v1/index \
 ### Ubuntu Server dengan Docker
 
 1. Install Docker:
+
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
@@ -362,6 +393,7 @@ sudo usermod -aG docker $USER
 ```
 
 2. Clone dan deploy:
+
 ```bash
 git clone <repository-url>
 cd google-indexing-api
@@ -371,11 +403,12 @@ docker-compose up -d
 ```
 
 3. Setup reverse proxy (Nginx):
+
 ```nginx
 server {
     listen 80;
     server_name yourdomain.com;
-    
+
     location / {
         proxy_pass http://localhost:8080;
         proxy_set_header Host $host;
@@ -410,6 +443,7 @@ MIT License
 ### Logs
 
 Check application logs:
+
 ```bash
 # Docker logs
 docker logs google-indexing-api

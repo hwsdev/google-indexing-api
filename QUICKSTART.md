@@ -17,6 +17,7 @@ chmod +x deploy.sh
 ## 🔥 Usage
 
 ### Submit Single URL
+
 ```bash
 curl -X POST http://localhost:8080/api/v1/index \
   -H "Content-Type: application/json" \
@@ -35,6 +36,7 @@ curl -X POST http://localhost:8080/api/v1/index \
 ```
 
 ### Submit Batch URLs
+
 ```bash
 curl -X POST http://localhost:8080/api/v1/index/batch \
   -H "Content-Type: application/json" \
@@ -45,6 +47,7 @@ curl -X POST http://localhost:8080/api/v1/index/batch \
 ```
 
 ### Health Check
+
 ```bash
 curl http://localhost:8080/api/health
 ```
@@ -61,7 +64,7 @@ curl http://localhost:8080/api/health
 
 ```bash
 ./deploy.sh start    # Start application
-./deploy.sh stop     # Stop application  
+./deploy.sh stop     # Stop application
 ./deploy.sh logs     # View logs
 ./deploy.sh restart  # Restart application
 ```

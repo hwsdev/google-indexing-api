@@ -14,7 +14,7 @@ import (
 func APIKeyAuth(logger *logrus.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		cfg := config.GetConfig()
-		
+
 		// Skip auth for health check
 		if c.Request.URL.Path == "/api/health" {
 			c.Next()
@@ -67,16 +67,16 @@ func APIKeyAuth(logger *logrus.Logger) gin.HandlerFunc {
 func CORS() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		cfg := config.GetConfig()
-		
+
 		origin := c.Request.Header.Get("Origin")
-		
+
 		// Simple CORS - in production, implement proper origin checking
 		if len(cfg.CORS.AllowedOrigins) > 0 && cfg.CORS.AllowedOrigins[0] == "*" {
 			c.Header("Access-Control-Allow-Origin", "*")
 		} else {
 			c.Header("Access-Control-Allow-Origin", origin)
 		}
-		
+
 		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		c.Header("Access-Control-Allow-Credentials", "true")
@@ -100,7 +100,7 @@ func RequestLogger(logger *logrus.Logger) gin.HandlerFunc {
 			"user_agent": param.Request.UserAgent(),
 			"latency":    param.Latency,
 		}).Info("HTTP Request")
-		
+
 		return ""
 	})
 }

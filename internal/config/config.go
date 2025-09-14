@@ -19,9 +19,9 @@ type Config struct {
 		Env     string
 	}
 	Logging struct {
-		Level              string
-		Format             string
-		EnableRequestLog   bool
+		Level            string
+		Format           string
+		EnableRequestLog bool
 	}
 	RateLimit struct {
 		PerMinute int
@@ -32,17 +32,17 @@ type Config struct {
 		AllowedHeaders []string
 	}
 	Performance struct {
-		CacheTTLMinutes        int
-		MaxConcurrentRequests  int
-		RequestTimeoutSeconds  int
+		CacheTTLMinutes       int
+		MaxConcurrentRequests int
+		RequestTimeoutSeconds int
 		MaxBatchSize          int
 		MaxRetryAttempts      int
 		RetryDelaySeconds     int
 	}
 	Security struct {
 		EnableSecurityHeaders bool
-		TrustedProxies       []string
-		EnableMetrics        bool
+		TrustedProxies        []string
+		EnableMetrics         bool
 	}
 }
 
@@ -79,10 +79,10 @@ func LoadConfig() error {
 	} else {
 		config.CORS.AllowedOrigins = strings.Split(originsStr, ",")
 	}
-	
+
 	methodsStr := getEnv("CORS_ALLOWED_METHODS", "GET,POST,PUT,DELETE,OPTIONS")
 	config.CORS.AllowedMethods = strings.Split(methodsStr, ",")
-	
+
 	headersStr := getEnv("CORS_ALLOWED_HEADERS", "Content-Type,Authorization,X-Requested-With")
 	config.CORS.AllowedHeaders = strings.Split(headersStr, ",")
 
@@ -97,7 +97,7 @@ func LoadConfig() error {
 	// Security configuration
 	config.Security.EnableSecurityHeaders = getEnvBool("ENABLE_SECURITY_HEADERS", true)
 	config.Security.EnableMetrics = getEnvBool("ENABLE_METRICS", true)
-	
+
 	trustedProxiesStr := getEnv("TRUSTED_PROXIES", "127.0.0.1")
 	config.Security.TrustedProxies = strings.Split(trustedProxiesStr, ",")
 

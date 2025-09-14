@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/api/indexing/v3"
 	"google.golang.org/api/option"
-	"github.com/sirupsen/logrus"
 
 	"google-indexing-api/internal/models"
 )
@@ -110,13 +110,13 @@ func (gis *GoogleIndexingService) SubmitURLsBatch(ctx context.Context, urls []st
 
 	var wg sync.WaitGroup
 	results := make([]models.IndexResponse, len(urls))
-	
+
 	// Use goroutines for concurrent processing
 	for i, url := range urls {
 		wg.Add(1)
 		go func(index int, u string) {
 			defer wg.Done()
-			
+
 			result, err := gis.SubmitURL(ctx, u, serviceAccount)
 			if err != nil {
 				results[index] = models.IndexResponse{
@@ -170,7 +170,7 @@ func (gis *GoogleIndexingService) GetURLStatus(ctx context.Context, url string, 
 
 	call := service.UrlNotifications.GetMetadata()
 	call.Url(url)
-	
+
 	resp, err := call.Do()
 	if err != nil {
 		gis.logger.WithError(err).WithField("url", url).Error("Failed to get URL status")
@@ -182,7 +182,7 @@ func (gis *GoogleIndexingService) GetURLStatus(ctx context.Context, url string, 
 
 	status := "unknown"
 	lastUpdated := ""
-	
+
 	if resp.LatestUpdate != nil {
 		status = resp.LatestUpdate.Type
 		lastUpdated = resp.LatestUpdate.NotifyTime
@@ -199,7 +199,7 @@ func (gis *GoogleIndexingService) GetURLStatus(ctx context.Context, url string, 
 func (gis *GoogleIndexingService) ClearCache() {
 	gis.cacheMutex.Lock()
 	defer gis.cacheMutex.Unlock()
-	
+
 	gis.serviceCache = make(map[string]*indexing.Service)
 	gis.logger.Info("Service cache cleared")
 }
@@ -208,7 +208,7 @@ func (gis *GoogleIndexingService) ClearCache() {
 func (gis *GoogleIndexingService) GetCacheStats() map[string]interface{} {
 	gis.cacheMutex.RLock()
 	defer gis.cacheMutex.RUnlock()
-	
+
 	return map[string]interface{}{
 		"cached_services": len(gis.serviceCache),
 		"has_default":     false, // No default service account

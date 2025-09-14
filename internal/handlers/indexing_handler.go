@@ -42,7 +42,7 @@ func NewIndexingHandler(service *services.GoogleIndexingService, logger *logrus.
 // @Router /api/v1/index [post]
 func (h *IndexingHandler) SubmitURL(c *gin.Context) {
 	var req models.IndexRequest
-	
+
 	if err := c.ShouldBindJSON(&req); err != nil {
 		h.logger.WithError(err).Error("Failed to bind JSON request")
 		c.JSON(http.StatusBadRequest, models.ErrorResponse{
@@ -112,7 +112,7 @@ func (h *IndexingHandler) SubmitURL(c *gin.Context) {
 // @Router /api/v1/index/batch [post]
 func (h *IndexingHandler) SubmitURLsBatch(c *gin.Context) {
 	var req models.BatchIndexRequest
-	
+
 	if err := c.ShouldBindJSON(&req); err != nil {
 		h.logger.WithError(err).Error("Failed to bind JSON request")
 		c.JSON(http.StatusBadRequest, models.ErrorResponse{
@@ -190,7 +190,7 @@ func (h *IndexingHandler) SubmitURLsBatch(c *gin.Context) {
 // @Router /api/v1/status/{url} [get]
 func (h *IndexingHandler) GetURLStatus(c *gin.Context) {
 	urlParam := c.Param("url")
-	
+
 	// URL decode the parameter
 	decodedURL, err := url.QueryUnescape(urlParam)
 	if err != nil {
@@ -275,7 +275,7 @@ func (h *IndexingHandler) isValidURL(urlStr string) bool {
 	if err != nil {
 		return false
 	}
-	
+
 	return u.Scheme != "" && u.Host != "" && (u.Scheme == "http" || u.Scheme == "https")
 }
 
@@ -322,7 +322,7 @@ func (h *IndexingHandler) validateServiceAccount(sa *models.ServiceAccountCreden
 
 func (h *IndexingHandler) isValidPrivateKey(privateKey string) bool {
 	// Basic validation for PEM format
-	return len(privateKey) > 50 && 
-		   (strings.Contains(privateKey, "-----BEGIN PRIVATE KEY-----") || 
-		    strings.Contains(privateKey, "-----BEGIN RSA PRIVATE KEY-----"))
+	return len(privateKey) > 50 &&
+		(strings.Contains(privateKey, "-----BEGIN PRIVATE KEY-----") ||
+			strings.Contains(privateKey, "-----BEGIN RSA PRIVATE KEY-----"))
 }
